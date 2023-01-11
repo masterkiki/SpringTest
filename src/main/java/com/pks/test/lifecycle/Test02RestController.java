@@ -5,8 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.pks.test.lifecycle.model.Notice;
 
 @RestController
 @RequestMapping("/lifecycle/test02")
@@ -90,6 +94,21 @@ public class Test02RestController {
 			return movies;
 			
 		}
+		
+		
+		
+
+			@RequestMapping("/3")
+			public ResponseEntity<Notice> entity(){
+				Notice post = new Notice();
+				post.setTitle("dd");
+				post.setUser("dd");
+				post.setContent("dd");
+			
+				ResponseEntity<Notice> entity = new ResponseEntity(post, HttpStatus.INTERNAL_SERVER_ERROR);
+			
+				return entity;
+			}
 		
 
 }
