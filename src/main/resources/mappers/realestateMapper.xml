@@ -4,8 +4,10 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
+<!--  DAO 에 있는걸 정의해주는것 -->
+
 <mapper namespace="com.pks.test.mybatis.dao.RealEstateDAO">
-	<select id="selectRealEstate" resultType="com.pks.test.mybatis.model.RealEstate">
+	<select id="selectRealEstate" resultType="com.pks.test.mybatis.model.RealEstate" parameterType="int">
 		SELECT
 			`id`
 			, `realtorId`
@@ -22,7 +24,7 @@
 			`id` = #{id}
 	</select>
 
-		<select id="RealEstaterentPrice" resultType="com.pks.test.mybatis.model.RealEstate">
+		<select id="selectRealEstaterentPrice" parameterType="int" resultType="com.pks.test.mybatis.model.RealEstate">
 		SELECT
 			`id`
 			, `realtorId`
@@ -36,10 +38,11 @@
 		FROM
 			`real_estate`
 		WHERE
-			`rentPrice`<![CDATA[<]]>  #{rentPrice}
+			<![CDATA[`rentPrice` <  #{rentPrice} ]]>  <!--  이렇게 해도됨 -->
 	</select>
 	
-			<select id="AreaPrice" resultType="com.pks.test.mybatis.model.RealEstate">
+			<select id="selectRealEstateByAreaPrice" parameterType="map" resultType="com.pks.test.mybatis.model.RealEstate">  
+			                              <!--  파라미터타입이 여러개일 다를수 있으니  map으로 잡아준다 -->
 		SELECT
 			`id`
 			, `realtorId`
@@ -53,8 +56,70 @@
 		FROM
 			`real_estate`
 		WHERE
-			`area` <![CDATA[>]]>  #{area} AND `price` <![CDATA[<]]>  #{price}
-
+			<!-- `area` <![CDATA[>]]>  #{area} AND `price` <![CDATA[<]]>  #{price} -->
+			<![CDATA[
+			`area` >= #{area}
+			AND `price` <= #{price}
+			]]>
 
 	</select>
+	
+	<insert id="insertEstateByObject1" parameterType="map">
+				INSERT INTO
+		`real_estate`
+		(
+			`realtorId`
+			, `address`
+			, `area`
+			, `type`
+			, `price`
+			, `rentPrice`
+			, `createdAt`
+			, `updatedAt`
+		)
+		VALUES
+		(
+			#{realtorId}
+			, #{address}
+			, #{area}
+			, #{type}
+			, #{price}
+			, #{rentPrice}
+			, now()
+			, now()
+		)
+	</insert>
+	
+	
+	
+	
+	<insert id="insertEstateByObject" parameterType="com.pks.test.mybatis.model.RealEstate">
+		INSERT INTO
+		`real_estate`
+		(
+			`realtorId`
+			, `address`
+			, `area`
+			, `type`
+			, `price`
+			, `rentPrice`
+			, `createdAt`
+			, `updatedAt`
+		)
+		VALUES
+		(
+			#{realtorId}
+			, #{address}
+			, #{area}
+			, #{type}
+			, #{price}
+			, #{rentPrice}
+			, now()
+			, now()
+		)
+		
+	
+	</insert>
+	
+	
 </mapper>

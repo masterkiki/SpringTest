@@ -1,5 +1,7 @@
 package com.pks.test.mybatis;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,32 +12,67 @@ import com.pks.test.mybatis.bo.RealEstateBO;
 import com.pks.test.mybatis.model.RealEstate;
 
 @Controller
-@RequestMapping("/mybatis/test01")
+@RequestMapping("/mybatis")
 public class RealEstateController {
+	
+	
 	
 	@Autowired
 	private RealEstateBO RealEstateBO;
 	
+	// id 를 리퀘스트 파라미터로 전달 받고, 조회결과를 json 으로 response에 담는다.
 	@ResponseBody
-	@RequestMapping("/1")
+	@RequestMapping("/test01/1")
 	public RealEstate RealEstate(@RequestParam("id")int id) {
 		RealEstate realestate = RealEstateBO.getRealEstate(id);
 		return realestate;
 	}
 	
+	
+	// 전달된 월세 보다 낮은 매물 리스트 json으로 response 담는다.
 	@ResponseBody
-	@RequestMapping("/2")
-	public RealEstate RentPrice(@RequestParam("rentPrice")int rentPrice) {
-		RealEstate rentprice = RealEstateBO.getRealEstateRentPirce(rentPrice);
-		return rentprice;
+	@RequestMapping("/test01/2")
+	public List<RealEstate> RentPrice(@RequestParam("rent")int rentPrice) { // 여기서 파라미터는 rent 주소에서 입력하는값
+		List<RealEstate> realEstateList = RealEstateBO.getRealEstateRentPirce(rentPrice);
+		return realEstateList;
+	}
+	
+	
+	// 넓이를 매매 가격을 전달 받고, 이에 상응하는 리스트를 json으로 response에 담는다
+	@ResponseBody
+	@RequestMapping("/test01/3")
+	public List<RealEstate> AreaPrice(
+			@RequestParam("area")int area
+			, @RequestParam("price")int price) {
+		return RealEstateBO.getRealEstateListByAreaPrice(area, price);
 	}
 	
 	@ResponseBody
-	@RequestMapping("/3")
-	public RealEstate AreaPrice(@RequestParam("area")int area ,@RequestParam("price")int price) {
-		RealEstate areaprice = RealEstateBO.getAreaPrice(area, price);
-		return areaprice;
+	@RequestMapping("/test02/1")
+	public String addEstate1() {
+		int count = RealEstateBO.addEstate1(3, "푸르지용 리버 303동 1104호", 89, "매매", 100000, 0);
+		return "입력 성공 : " + count; 
+		
 	}
 	
+	
+	
+	
+	@RequestMapping("/test02/2")
+	@ResponseBody
+	public String addEstate(@RequestParam("realtorid")int realtorId
+) {
+		
+		RealEstate realestate = new RealEstate();
+		realestate.setAddress("쌍떼빌리버 오피스텔 814호");
+		realestate.setArea(45);
+		realestate.setType("월세");
+		realestate.setPrice(100000);
+		realestate.setRentPrice(120);
+		realestate.setRealtorId((realtorId));
+		
+		int count = RealEstateBO.addEstate(realestate);
+		return "입력성공" + count;
+	}
 	
 }
