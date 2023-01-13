@@ -22,11 +22,20 @@ public class RealEstateController {
 		RealEstate realestate = RealEstateBO.getRealEstate(id);
 		return realestate;
 	}
+	
 	@ResponseBody
 	@RequestMapping("/2")
 	public RealEstate RentPrice(@RequestParam("rentPrice")int rentPrice) {
 		RealEstate rentprice = RealEstateBO.getRealEstateRentPirce(rentPrice);
 		return rentprice;
 	}
+	
+	@ResponseBody
+	@RequestMapping("/3")
+	public RealEstate AreaPrice(@RequestParam("area")int area ,@RequestParam("price")int price) {
+		RealEstate areaprice = RealEstateBO.getAreaPrice(area, price);
+		return areaprice;
+	}
+	
 	
 }

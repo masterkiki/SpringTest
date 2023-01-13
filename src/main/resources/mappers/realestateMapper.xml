@@ -36,6 +36,25 @@
 		FROM
 			`real_estate`
 		WHERE
-			`rentPrice` = #{rentPrice}
+			`rentPrice`<![CDATA[<]]>  #{rentPrice}
+	</select>
+	
+			<select id="AreaPrice" resultType="com.pks.test.mybatis.model.RealEstate">
+		SELECT
+			`id`
+			, `realtorId`
+			, `address`
+			, `area`
+			, `type`
+			, `price`
+			, `rentPrice`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`real_estate`
+		WHERE
+			`area` <![CDATA[>]]>  #{area} AND `price` <![CDATA[<]]>  #{price}
+
+
 	</select>
 </mapper>

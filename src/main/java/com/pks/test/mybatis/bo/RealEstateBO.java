@@ -23,4 +23,9 @@ public class RealEstateBO {
 		RealEstate rentprice = RealEstateDAO.RealEstaterentPrice(rentPrice);
 		return rentprice;
 	}
+	
+	public RealEstate getAreaPrice(int area, int price) {
+		RealEstate areaprice = RealEstateDAO.AreaPrice(area, price);
+		return areaprice;
+	}
 }
