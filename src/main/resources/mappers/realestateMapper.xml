@@ -64,6 +64,10 @@
 
 	</select>
 	
+	
+		
+	
+	
 	<insert id="insertEstateByObject1" parameterType="map">
 				INSERT INTO
 		`real_estate`
@@ -118,8 +122,55 @@
 			, now()
 		)
 		
-	
 	</insert>
+	
+	<insert id="insertRealEstate" parameterType="map">
+		INSERT INTO
+		`real_estate`
+		(
+			`realtorId`
+			, `address`
+			, `area`
+			, `type`
+			, `price`
+			, `rentPrice`
+			, `createdAt`
+			, `updatedAt`
+		)
+		VALUES
+		(
+			#{realtorId}
+			, #{address}
+			, #{area}
+			, #{type}
+			, #{price}
+			, #{rentPrice}
+			, now()
+			, now()
+		)
+	
+	</insert>	
+	
+	<update id="updateRealEstate" parameterType="map">
+		UPDATE
+			`real_estate`
+		SET
+			`type` = #{type}
+			, `price` = #{price}
+			, `updatedAt` = now()
+		WHERE
+		 	`id` = #{id}		
+	</update>
+	
+	
+	<delete id="deleteRealEstate" parameterType="int">
+		DELETE FROM
+			`real_estate`
+		WHERE
+			`id` = #{id}
+	</delete>
+	
+	
 	
 	
 </mapper>
