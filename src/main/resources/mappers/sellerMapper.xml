@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+  <!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pks.test.jsp.dao.SellerDAO">
+	<insert id="insertSeller" parameterType="map">
+		INSERT INTO
+			`seller`
+		(
+			`nickname`
+			, `temperature`
+			, `profileImage`
+			, `createdAt`
+			, `updatedAt`
+		)
+		VALUE
+		(
+			#{nickname}  <!--  여기있는건 DAO에 있는 파람 -->
+			, #{temperature}
+			, #{profileImage}
+			, now()
+			, now()
+		)
+	</insert>
+	
+	
+	<select id="selectLastSeller" resultType="com.pks.test.jsp.model.Seller">
+		
+		SELECT
+			`id`
+			, `nickname`
+			, `temperature`
+			, `profileImage`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`seller`
+		ORDER BY
+			`id` DESC
+		LIMIT 1
+		
+	</select>
+	
+	
+	<select id="selectSeller" parameterType="int" resultType="com.pks.test.jsp.model.Seller">
+		
+				SELECT
+			`id`
+			, `nickname`
+			, `temperature`
+			, `profileImage`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`seller`
+		WHERE
+			`id` = #{id}
+		
+	
+	</select>
+	
+
+</mapper>
