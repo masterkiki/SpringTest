@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,7 +20,7 @@
 </head>
 <body>
 	<div id="wrap">
-		<section class="contents d-flex">
+		<div class="contents d-flex">
 			<nav class="main-menu">
 				<div class="logo d-flex justify-content-center mt-3">
 					<img style="width:100px" src="https://www.kma.go.kr/kma/resources/images/sub/sig2.png">
@@ -28,8 +29,8 @@
 				
 				<div class="menu mt-3">
 					<ul class="nav flex-column">
-						<li class="nav-item"><a class="nav-link text-white font-weight-bold" href="#">날씨</a></li>
-						<li class="nav-item"><a class="nav-link text-white font-weight-bold" href="#">날씨입력</a></li>
+						<li class="nav-item"><a class="nav-link text-white font-weight-bold" href="/jstl/test05">날씨</a></li>
+						<li class="nav-item"><a class="nav-link text-white font-weight-bold" href="/jstl/input">날씨입력</a></li>
 						<li class="nav-item"><a class="nav-link text-white font-weight-bold" href="#">테마날씨</a></li>
 						<li class="nav-item"><a class="nav-link text-white font-weight-bold" href="#">관측 기후</a></li>
 					</ul>
@@ -50,21 +51,44 @@
 							</tr>
 						</thead>
 						<tbody>
-						<tr>
-							<td>2015년 7월 1일</td>
-							<td><img style="width:40px"src="http://marondal.com/material/images/dulumary/web/jstl/sunny.jpg"></td>
-							<td>2015년 7월 1일</td>
-							<td>2015년 7월 1일</td>
-							<td>2015년 7월 1일</td>
-							<td>2015년 7월 1일</td>
-						</tr>
+							<c:forEach var="weather" items="${weatherhistory}">
+								<tr>
+									<td><fmt:formatDate value="${weather.date }" pattern="yyyy년 M월 d일" /></td>
+									<td>
+										<c:choose>
+											<c:when test="${weather.weather eq '맑음'}">
+												<img src="http://marondal.com/material/images/dulumary/web/jstl/sunny.jpg">
+											</c:when>										
+											<c:when test="${weather.weather eq '구름조금'}">
+												<img src="http://marondal.com/material/images/dulumary/web/jstl/partlyCloudy.jpg">
+											</c:when>										
+											<c:when test="${weather.weather eq '흐림'}">
+												<img src="http://marondal.com/material/images/dulumary/web/jstl/cloudy.jpg">
+											</c:when>										
+											<c:when test="${weather.weather eq '비'}">
+												<img src="http://marondal.com/material/images/dulumary/web/jstl/rainy.jpg">
+											</c:when>			
+											<c:otherwise>
+												${weather.weather }
+											</c:otherwise>							
+								
+										</c:choose>
+									
+									</td>
+									<td>${weather.temperatures }°C</td>
+									<td>${weather.precipitation }mm</td>
+									<td>${weather.microDust }</td>
+									<td>${weather.windSpeed }km/h</td>
+								</tr>
+							</c:forEach>
+							
 						</tbody>
 					</table>
 				</div>
 			
 			
 			</article>
-		</section>
+		</div>
 		
 		<footer class="d-flex">
 			<div class="logo d-flex align-items-center justify-content-center"><img width="150" src="https://www.weather.go.kr/plus/resources/image/foot_logo.png"></div>

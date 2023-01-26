@@ -6,7 +6,7 @@ public class Weatherhistory {
 
 	private int id;
 	private Date date;
-	private String weahter;
+	private String weather;
 	private double temperatures;
 	private double precipitation;
 	private String microDust;
@@ -26,11 +26,11 @@ public class Weatherhistory {
 	public void setDate(Date date) {
 		this.date = date;
 	}
-	public String getWeahter() {
-		return weahter;
+	public String getWeather() {
+		return weather;
 	}
-	public void setWeahter(String weahter) {
-		this.weahter = weahter;
+	public void setWeather(String weahter) {
+		this.weather = weahter;
 	}
 	public double getTemperatures() {
 		return temperatures;
