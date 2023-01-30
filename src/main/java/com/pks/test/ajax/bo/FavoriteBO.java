@@ -26,4 +26,14 @@ public class FavoriteBO {
 		return favoritedao.insertFavortie(name, url);
 	}
 
+	public boolean isDuplicateURL(String url) {
+		int count = favoritedao.selectURL(url);
+		
+		if(count == 0) { //중복되지 않음
+			return false;
+		} else { // 중복됨
+			return true;
+		}
+	}
+	
 }

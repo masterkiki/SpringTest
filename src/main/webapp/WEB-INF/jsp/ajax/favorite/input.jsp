@@ -25,7 +25,11 @@
 			<label>제목</label> <br>
 			<input type="text" class="form-control" name="name" id="nameInput"> <br>
 			<label>주소</label> <br>
-			<input type="text" class="form-control" name="url" id="urlInput"> <br>
+			<div class="d-flex">
+				<input type="text" class="form-control" name="url" id="urlInput">
+				<button class="btn btn-info" type="button" id="isdupilcateBtn">중복확인</button> <br>
+			</div>
+			<br>
 			<button class="btn btn-success btn-block" type="button" id="addBtn">추가</button>
 			
 			
@@ -34,6 +38,43 @@
 	
 	<script>
 		$(document).ready(function(){
+			
+			
+			$("#isdupilcateBtn").on("click", function(){
+					
+				let url = $("#urlInput").val();
+				
+				
+				// https:// , http://
+				// http 로 시작하지 않고 https로 시작하지 않으면
+				//if(!url.startsWith("http://") && !url.startsWith("https://")){
+				if(!(url.startsWith("http://") || url.startsWith("https://"))){
+					alert("주소 형식이 잘못 되었습니다.")
+					return;
+				}
+				
+				$.ajax({
+					type:"post"
+					, url: /"ajax/favorite/is_duplicate"
+					, data:{"url":url}
+					, success:function(data){
+					
+						if(data.is_duplicate){
+							alert("중복되었습니다.");	
+						} else{
+							alert("사용 가능합니다.");	
+						}
+						
+					}
+					,error:function() {
+						alert("에러 발생")
+					}
+					
+				});
+				
+			});
+			
+			
 			
 			$("#addBtn").on("click",function(){
 				
@@ -49,6 +90,7 @@
 					alert("주소를 입력하세요");
 					return;
 				}
+				
 				
 				$.ajax({
 					type:"Post"

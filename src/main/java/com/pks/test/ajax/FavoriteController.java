@@ -67,4 +67,20 @@ public class FavoriteController {
 		//return "redirect:/ajax/favorite/list";
 	}
 	
+	@PostMapping("/is_duplicate")
+	@ResponseBody
+	public Map<String, Boolean> isDuplicateURL(@RequestParam("url") String url) {
+		
+		Map<String, Boolean> result = new HashMap<>();
+		
+//		if(favoritebo.isDuplicateURL(url)) { // 중복된 경우
+//			result.put("is_duplicate", true);
+//		} else {  // 중복되지 않은경우
+//			result.put("is_duplicate", false);
+//		}
+		
+		result.put("is_dupilcate", favoritebo.isDuplicateURL(url));
+		
+		return result;
+	}
 }
