@@ -29,6 +29,8 @@
 				<input type="text" class="form-control" name="url" id="urlInput">
 				<button class="btn btn-info" type="button" id="isdupilcateBtn">중복확인</button> <br>
 			</div>
+			<div class="small text-danger d-none" id="duplicateDiv">중복된 url 입니다.</div>
+			<div class="small text-info d-none" id="availableDiv">저장 가능한 url 입니다.</div>
 			<br>
 			<button class="btn btn-success btn-block" type="button" id="addBtn">추가</button>
 			
@@ -38,6 +40,26 @@
 	
 	<script>
 		$(document).ready(function(){
+			
+		
+				
+				// 중복 체크 여부 확인 변수 
+				var isChecked = false;
+				
+				// url 중복상태 저장 변수 
+				var isDuplicate = true;
+				
+				
+				$("#urlInput").on("input", function() {
+					// 중복체크 여부 과정을 모두 취소한다. 
+					isChecked = false;
+					isDuplicate = true;
+					
+					$("#duplicateDiv").addClass("d-none");
+					$("#availableDiv").addClass("d-none");
+				
+				});
+			
 			
 			
 			$("#isdupilcateBtn").on("click", function(){
@@ -55,17 +77,25 @@
 				
 				$.ajax({
 					type:"post"
-					, url: /"ajax/favorite/is_duplicate"
+					, url:"/ajax/favorite/is_duplicate"
 					, data:{"url":url}
 					, success:function(data){
 					
-						if(data.is_duplicate){
-							alert("중복되었습니다.");	
-						} else{
-							alert("사용 가능합니다.");	
+						// 중복 체크 완료
+						isChecked = true;
+							
+						if(data.is_duplicate) {  // 중복됨
+							$("#duplicateDiv").removeClass("d-none");
+							$("#availableDiv").addClass("d-none");
+							isDuplicate = true;
+						} else { // 사용가능
+							$("#availableDiv").removeClass("d-none");
+							$("#duplicateDiv").addClass("d-none");
+							isDuplicate = false;
+							
 						}
-						
 					}
+					
 					,error:function() {
 						alert("에러 발생")
 					}
