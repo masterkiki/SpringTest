@@ -19,7 +19,52 @@
 			, `updatedAt`
 		FROM
 			`booking`
-		ORDER BY `id` DESC; 
+		ORDER BY `id` ; 
+  	</select>
+  	
+  	<insert id="insertBooking" parameterType="map">
+  		INSERT INTO
+  			`booking`
+  		(
+  			 `name`
+			, `headcount`
+			, `day`
+			, `date`
+			, `phoneNumber`
+			, `state`
+			, `createdAt`
+			, `updatedAt`
+  		)
+  		VALUE
+  		(
+  			#{name}
+  			, #{headcount}
+  			, #{day}
+  			, #{date}
+  			, #{phoneNumber}
+  			, #{state}
+  			, now()
+  			, now()
+  		)
+  	
+  	</insert>
+  	
+  	<delete id="deleteBooking" parameterType="int">
+  		DELETE FROM
+  			`booking`
+  		WHERE
+  			`id` = #{id}	
+  	</delete>
+  	
+  	<select id="confirmBooking" resultType="com.pks.test.ajax.model.Booking">
+  		SELECT
+  			`name`
+  			, `date`
+  			, `day`
+  			, `haedcount`
+  			, `state`
+  		FROM
+  		 	`booking`
   	</select>
   		
   

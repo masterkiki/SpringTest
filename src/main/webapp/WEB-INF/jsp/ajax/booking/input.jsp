@@ -43,59 +43,38 @@
                 <ul class="nav nav-fill">
                     <li class="nav-item"><a href="#" class="nav-link text-white">팬션소개</a></li>
                     <li class="nav-item"><a href="#" class="nav-link text-white">객실보기</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link text-white">예약안내</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link text-white">커뮤니티</a></li>
+                    <li class="nav-item"><a href="/ajax/booking/input" class="nav-link text-white">예약안내</a></li>
+                    <li class="nav-item"><a href="/ajax/booking/list" class="nav-link text-white">예약목록</a></li>
                 </ul>
             </nav>
 
             <section class="contents">
             
             	<article>
-            		<h2 class="text-center mt-4">예약 목록 보기</h2>
-            		<table class="table text-center">
-            			<thead>
- 							<tr>
- 								<th>이름</th>
- 								<th>예약날짜</th>
- 								<th>숙박일수</th>
- 								<th>숙박인원</th>
- 								<th>전화번호</th>
- 								<th>예약상태</th>
- 							</tr>
- 							           			
-            			</thead>
-            			
-            			<tbody>
-            				<c:forEach var="bookinglist" items="${bookinglist }">
-            				<tr>
-            					<td>${bookinglist.name}</td>
-            					<td><fmt:formatDate value="${bookinglist.date}" pattern="yyyy년 M월 dd일"/></td>
-            					<td>${bookinglist.day}</td>
-            					<td>${bookinglist.headcount}</td>
-            					<td>${bookinglist.phoneNumber}</td>
-            					 <c:choose>
-            						<c:when test="${bookinglist.state eq '확정' }">
-            							<td class="text-success">${bookinglist.state}</td>
-            						</c:when>
-            						<c:when test="${bookinglist.state eq '대기중' }">
-            							<td class="text-info">${bookinglist.state}</td>
-            						</c:when>
-            						<c:otherwise>
-            							<td>${bookinglist.state }</td>
-            						</c:otherwise>
-            						
-            						
-            					</c:choose> 
-            					<td><button type="button" data-booking-id="${bookinglist.id }" class="btn btn-danger delete-btn">삭제</button></td>
-            				</tr>
-            				</c:forEach>
-            			</tbody>
-            			
-            		
-            		</table>
+            		<h2 class="text-center mt-4">예약 하기</h2>
+            		<div class="d-flex justify-content-center">
+            			<div class="w-50 ">
+		            		<label>이름</label> <br>
+		            		<input type="text" class="form-control" id="nameInput">
+		            		
+		            		<label>예약날짜</label> <br>
+		            		<input type="text" class="form-control" id="dateInput">
+		            		
+		            		<label>숙박일수</label> <br>
+		            		<input type="text" class="form-control" id="dayInput">
+		            		
+		            		<label>숙박인원</label> <br>
+		            		<input type="text" class="form-control" id="countInput">
+		            		
+		            		<label>전화번호</label> <br>
+		            		<input type="text" class="form-control" id="phoneNumberInput">
+		            		
+		            		<br>
+		            		<button type="button" class="btn btn-warning w-100" id="bookingBtn">예약하기</button>
+            			</div>
             	</article>
             
-            
+            <br>
             <footer class="samll text-secondary">
             
             
@@ -110,36 +89,61 @@
         </div>
         
         <script>
-        	$(document).ready(function (){
+        	$(document).ready(function(){
         		
-        		$(".delete-btn").on("click", function(){
+        		$("#bookingBtn").on("click",function(){
         			
-        		 let id = $(this).data("booking-id")
+        			let name = $("#nameInput").val();
+        			let date = $("#dateInput").val();
+        			let day = $("#dayInput").val();
+        			let count = $("#countInput").val();
+        			let phoneNumber = $("#phoneNumberInput").val();
         			
-				$.ajax({
-					type:"get"
-					, url:"/ajax/booking/delete"
-					, data:{"id":id}
-					, success:function(data){
-						if(data.result == "success"){
-							location.reload();								
-						} else{
-							alert("삭제 실패")
-						}
-						
-					}
-					,error:function(){
-						alert("삭제 에러")
-					}
-					
-				});
-        		 
+        			if(name == ""){
+        				alert("이름을 입력하세요");
+        				return;
+        			} 
+        			
+        			if(date == ""){
+        				alert("예약날짜를 입력하세요");
+        				return;
+        			} 
+        			
+        			if(day == ""){
+        				alert("숙박일수를 입력하세요");
+        				return;
+        			}
+  
+        			if(count ==""){
+        				alert("숙박인원을 입력하세요");
+        				return;
+        			}
+
+        			if(phoneNumber == ""){
+        				alert("전화번호를 입력하세요");
+        				return;
+        			}
+        			
+        			
+        			$.ajax({
+        				type:"get"
+        				, url:"/ajax/booking/add"
+        				, data:{"name":name, "date":date, "day":day, "headcount":count , "phoneNumber":phoneNumber}
+        				, success:function(data){
+        					if(data.result == "success"){
+        						location.href = "/ajax/booking/list";
+        					} else{
+        						alert("예약 실패");
+        					}
+        				}
+        				, error:function(){
+        					alert("에러 발생");
+        				}
+        			})
+        			
         		});
         		
-        		
         	});
-        	
-        
         </script>
 
 

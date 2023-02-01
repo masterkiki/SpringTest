@@ -48,36 +48,6 @@
 
             <section class="contents">
             
-            	<article>
-            		<h2 class="text-center mt-4">예약 목록 보기</h2>
-            		<table class="table text-center">
-            			<thead>
- 							<tr>
- 								<th>이름</th>
- 								<th>예약날짜</th>
- 								<th>숙박일수</th>
- 								<th>숙박인원</th>
- 								<th>전화번호</th>
- 								<th>예약상태</th>
- 							</tr>
- 							           			
-            			</thead>
-            			
-            			<tbody>
-            				<tr>
-            					<td>김인규</td>
-            					<td>2021년 6월 30일</td>
-            					<td>1</td>
-            					<td>2</td>
-            					<td>010-1234-4564</td>
-            					<td>대기중</td>
-            				</tr>
-            			</tbody>
-            			
-            		
-            		</table>
-            	</article>
-            
             
                 <article class="main-banner">
                     <img id="mainBanner" src="http://marondal.com/material/images/dulumary/web/front/jquery/test06_banner1.jpg">
@@ -222,6 +192,18 @@
                             return;
                         }
                     }
+                    
+                    $.ajax({
+                    	type:"get"
+                    	, url:"/ajax/booking/confirm"
+                    	, data:{"name":name, "phoneNumber":phoneNumber}
+                    	, success:function(){
+                    		alert(location.href="/ajax/booking/confirm");
+                    	}
+                    	
+                    });
+                    
+
 
 
 
