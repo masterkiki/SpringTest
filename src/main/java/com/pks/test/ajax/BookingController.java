@@ -92,14 +92,28 @@ public class BookingController {
 	// 이름 전화번호 전달받고, 일치하는 결과 하나를 json 형태로 변화해서 리스펀스에 담는다.
 	@GetMapping("/confirm")
 	@ResponseBody
-	public Booking printBooking(
+	public Map<String, Object> printBooking(
 			@RequestParam("name") String name
 			, @RequestParam("phoneNumber") String phoneNumber
 			){
 
 		// 이름 전화번호로 데이터 조회
 
-		Booking count = bookingBO.confirmBooking(name, phoneNumber);
+		Booking booking = bookingBO.confirmBooking(name, phoneNumber);
+		
+		// 조회가 성공하면 "result" : "success" , "data":booking}
+		// 조회가 실패하면 "result" : "fail"}
+		
+		Map<String, Object> result = new HashMap<>();
+		
+		if(booking != null) {
+			result.put("result", "success");
+			result.put("booking", booking);
+		} else {
+			result.put("result", "fail");
+		}
+		
+		return result;
 		 
 			
 	 }

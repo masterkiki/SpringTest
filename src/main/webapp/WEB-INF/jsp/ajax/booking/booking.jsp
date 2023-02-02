@@ -197,9 +197,26 @@
                     	type:"get"
                     	, url:"/ajax/booking/confirm"
                     	, data:{"name":name, "phoneNumber":phoneNumber}
-                    	, success:function(){
-                    		alert(location.href="/ajax/booking/confirm");
+                    
+                    
+                    
+                    	, success:function(data){
+	                    	if(data.result == "fail"){
+	                    		alert("조회대상이 없습니다.");
+	                    	} else{
+	                    		alert("이름 : " + data.booking.name + 
+	                    				"\n날짜 : " + data.booking.date.substring(0, 10) + 
+	                    				"\n일수 : " + data.booking.day +
+	                    				"\n인원 : " + data.booking.headcount +
+	                    				"\n상태 : " + data.booking.state
+	                     		);
+	                    		
+	                    	}
                     	}
+                    	, error:function(){
+                    		alert("에러 발생");
+                    	}
+                    	
                     	
                     });
                     

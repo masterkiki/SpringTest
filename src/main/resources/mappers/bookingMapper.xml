@@ -59,12 +59,19 @@
   	<select id="confirmBooking" resultType="com.pks.test.ajax.model.Booking">
   		SELECT
   			`name`
-  			, `date`
-  			, `day`
-  			, `haedcount`
-  			, `state`
+			, `headcount`
+			, `day`
+			, `date`
+			, `phoneNumber`
+			, `state`
+			, `createdAt`
+			, `updatedAt`
   		FROM
   		 	`booking`
+  		 WHERE
+  		 	`name` = #{name}
+  		 	AND `phoneNumber` = #{phoneNumber}
+  		 	
   	</select>
   		
   

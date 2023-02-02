@@ -23,7 +23,9 @@ public interface BookingDAO {
 	
 	public int deleteBooking(@Param("id") int id);
 	
-	public Booking confirmBooking();
+	public Booking confirmBooking(
+			@Param("name") String name
+			, @Param("phoneNumber") String phoneNumber);
 	
 	
 	

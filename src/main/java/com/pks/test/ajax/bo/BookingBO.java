@@ -34,6 +34,6 @@ public class BookingBO {
 	
 	
 	public Booking confirmBooking(String name, String phoneNubmer) {
-		return bookingDAO.confirmBooking();
+		return bookingDAO.confirmBooking(name, phoneNubmer);
 	}
 }
